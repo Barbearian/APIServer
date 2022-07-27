@@ -1,0 +1,27 @@
+{
+  "name": "apiserver",
+  "version": "1.0.0",
+  "description": "Used to test api server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Barbearian/APIServer.git"
+  },
+  "keywords": [
+    "nodejs",
+    "unity"
+  ],
+  "author": "Wenlong Ouyang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Barbearian/APIServer/issues"
+  },
+  "homepage": "https://github.com/Barbearian/APIServer#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1"
+  }
+}
