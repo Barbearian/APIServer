@@ -1,14 +1,5 @@
-const { createServer } = require("http");
-const { Server } =  require("socket.io");
-
-const httpServer = createServer();
-const io = new Server(httpServer, {
-  // options
+const io = require("socket.io");
+var lio = new io.Server(3000);
+lio.on("connection",(socket)=>{
+    console.log("Hello Bear");
 });
-
-io.on("connection", (socket) => {
-  // ...
-  socket.emit("hi","Hello Bear");
-});
-
-httpServer.listen(3000);
