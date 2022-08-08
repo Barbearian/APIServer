@@ -11,7 +11,14 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+  socket.broadcast.emit("connected",socket.id+"is connected");
+
+  socket.on("disconnect",(socket)=>{
+    socket.broadcast.emit("disconnected",socket.id+"is disconnected");
+  });
 });
+
+
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
