@@ -11,11 +11,15 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  socket.broadcast.emit("connected",socket.id+"is connected");
+  socket.broadcast.emit("message",socket.id+"is connected");
 
   socket.on("disconnect",(socket)=>{
-    socket.broadcast.emit("disconnected",socket.id+"is disconnected");
+    socket.broadcast.emit("message",socket.id+"is disconnected");
   });
+});
+
+io.on("message",(socket,message)=>{
+  socket.broadcast.emit("message",message);
 });
 
 
