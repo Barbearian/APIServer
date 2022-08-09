@@ -13,13 +13,14 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   socket.broadcast.emit("message",socket.id+"is connected");
 
-  socket.on("message",({msg})=>{
+  socket.on("message",(msg)=>{
     socket.broadcast.emit("message",msg);
     console.log(msg);
   })
 
   socket.on("disconnect",()=>{
     io.emit("message",socket.id+"is disconnected");
+    console.log(socket.id+" is disconnected");
   });
 });
 
