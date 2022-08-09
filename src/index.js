@@ -11,10 +11,10 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  socket.broadcast.emit("message",socket.id+"is connected");
+  io.emit("message",socket.id+"is connected");
 
   socket.on("message",(msg)=>{
-    socket.broadcast.emit("message",msg);
+    io.emit("message",msg);
     console.log(msg);
   })
 
