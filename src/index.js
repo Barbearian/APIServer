@@ -13,9 +13,9 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   socket.broadcast.emit("message",socket.id+"is connected");
 
-  socket.on("message",({content})=>{
-    socket.broadcast.emit("message",content);
-    console.log(content);
+  socket.on("message",({msg})=>{
+    socket.broadcast.emit("message",msg);
+    console.log(msg);
   })
 
   socket.on("disconnect",()=>{
