@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
 
   socket.on("privateMessage",(key,message)=>{
     io.to(key).emit("message",message);
-    console.log(userid+"->"+key+": "+ msg);
+    console.log(userid+"->"+key+": "+ message);
   });
 
   socket.on("disconnect",()=>{
