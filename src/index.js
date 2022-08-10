@@ -7,6 +7,12 @@ const io = new Server(server);
 
 //app.get('/', (req, res) => {});
 
+//http request
+app.get("/hi",(req,res)=>{
+  console.log("Someone said hello");
+  res.send("Hello this is an hello message from http request");
+});
+
 //authenrication
 io.use((socket, next)=>{
   const userId = socket.handshake.auth.userId;
@@ -39,6 +45,8 @@ io.on('connection', (socket) => {
     console.log(socket.id+" is disconnected");
   });
 });
+
+
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
