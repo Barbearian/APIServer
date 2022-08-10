@@ -13,6 +13,10 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   io.emit("message",{id:socket.id, message:"I am connected"});
 
+  socket.on("login",(userid,password)=>{
+    console.log(userid +"logged in with password :"+password);
+  })
+
   socket.on("message",(msg)=>{
     io.emit("message",{id:socket.id, message:msg});
     console.log(msg);
