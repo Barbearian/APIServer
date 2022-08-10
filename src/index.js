@@ -6,20 +6,20 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+ // res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  io.emit("message",socket.id+"is connected");
+  io.emit("message",{id:socket.id, message:"I am connected"});
 
   socket.on("message",(msg)=>{
-    io.emit("message",msg);
+    io.emit("message",{id:socket.id, message:msg});
     console.log(msg);
   })
 
   socket.on("disconnect",()=>{
-    io.emit("message",socket.id+"is disconnected");
+    io.emit("message",{id:socket.id, message:"I am connected"});
     console.log(socket.id+" is disconnected");
   });
 });
