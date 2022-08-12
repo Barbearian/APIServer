@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const http = require('http');
+const { type } = require('os');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
@@ -28,20 +29,20 @@ io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
   console.log(userid+' is authorized');
-  io.emit("message",{id:userid,type:"login", message:"has join the room"});
+  io.emit("message","login",{id:userid, message:"has join the room"});
 
   socket.on("message",(type,message)=>{
-    io.emit("message",{type:type,message:message});
+    io.emit("message",type,message);
     console.log(userid+": "+ message);
   })
 
   socket.on("privateMessage",(key,type,message)=>{
-    io.to(key).emit("message",{type:type,message:message});
+    io.to(key).emit("message",type,message);
     console.log(userid+"->"+key+": "+ message);
   });
 
   socket.on("disconnect",()=>{
-    io.emit("message",{type:"disconnect",message:userid});
+    io.emit("message","disconnect",userid);
     console.log(socket.id+" is disconnected");
   });
 });
