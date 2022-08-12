@@ -28,20 +28,20 @@ io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
   console.log(userid+' is authorized');
-  io.emit("message",{id:userid, message:"has join the room"});
+  io.emit("message",{id:userid,type:"login", message:"has join the room"});
 
-  socket.on("message",(msg)=>{
-    io.emit("message",msg);
+  socket.on("message",(type,message)=>{
+    io.emit("message",{type:type,message:message});
     console.log(userid+": "+ msg);
   })
 
-  socket.on("privateMessage",(key,message)=>{
-    io.to(key).emit("message",message);
+  socket.on("privateMessage",(key,type,message)=>{
+    io.to(key).emit("message",{type:type,message:message});
     console.log(userid+"->"+key+": "+ message);
   });
 
   socket.on("disconnect",()=>{
-    io.emit("message",{id:userid, message:"is disconnected"});
+    io.emit("message",{type:"disconnect",message:userid});
     console.log(socket.id+" is disconnected");
   });
 });
