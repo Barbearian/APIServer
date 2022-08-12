@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
 
   socket.on("message",(type,message)=>{
     io.emit("message",{type:type,message:message});
-    console.log(userid+": "+ msg);
+    console.log(userid+": "+ message);
   })
 
   socket.on("privateMessage",(key,type,message)=>{
