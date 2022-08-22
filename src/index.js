@@ -16,7 +16,7 @@ app.get("/hi",(req,res)=>{
 });
 
 app.post("/postTest",(req,res)=>{
-  console.log("Server Received"+req);
+  console.log("I received post message");
 });
 
 //authenrication
@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on("RegisterHttp",(message)=>{
-    console.log("Server received message : \n"+message);
+    console.log("Server received message : \n"+message.toString());
     http.request(message,(res)=>{});
     //console.log(message);
   });
