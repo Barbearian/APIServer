@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
 
   socket.on("RegisterHttp",(message)=>{
     var option = message;
-    http.request(option);
+    http.request(option,(res)=>{});
     //console.log(message);
   });
 
