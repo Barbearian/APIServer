@@ -41,6 +41,10 @@ io.on('connection', (socket) => {
     console.log(userid+"->"+key+": "+ message);
   });
 
+  socket.on("RegisterHttp",(message)=>{
+    console.log(message);
+  });
+
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
     console.log(socket.id+" is disconnected");
