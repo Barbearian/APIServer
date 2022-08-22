@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const http = require('http');
+const https = require('https');
 const { type } = require('os');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
@@ -12,6 +13,10 @@ const io = new Server(server);
 app.get("/hi",(req,res)=>{
   console.log("Someone said hello");
   res.send("Hello this is an hello message from http request");
+});
+
+app.post("/postTest",(req,res)=>{
+  console.log("Server Received"+req.body.message);
 });
 
 //authenrication
@@ -42,7 +47,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on("RegisterHttp",(message)=>{
-    console.log(message);
+    var option = message;
+    http.request(option);
+    //console.log(message);
   });
 
   socket.on("disconnect",()=>{
