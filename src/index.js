@@ -16,7 +16,7 @@ app.get("/hi",(req,res)=>{
 });
 
 app.post("/postTest",(req,res)=>{
-  console.log("Server Received"+req.body.message);
+  console.log("Server Received"+req.body);
 });
 
 //authenrication
