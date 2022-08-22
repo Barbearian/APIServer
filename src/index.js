@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const http = require('http');
+const axios = require("axios");
 const https = require('https');
 const { type } = require('os');
 const server = http.createServer(app);
@@ -46,9 +47,8 @@ io.on('connection', (socket) => {
     console.log(userid+"->"+key+": "+ message);
   });
 
-  socket.on("RegisterHttp",(message)=>{
-    console.log(message);
-    http.request(message,(res)=>{});
+  socket.on("RegisterHttp",(uri,body)=>{
+    axios.post(uri,body);
     //console.log(message);
   });
 
