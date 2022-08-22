@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on("RegisterHttp",(message)=>{
-    console.log("Server received message : \n"+message.toString());
+    console.log(message);
     http.request(message,(res)=>{});
     //console.log(message);
   });
