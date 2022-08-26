@@ -23,12 +23,18 @@ app.post("/postTest",(req,res)=>{
 //authenrication
 io.use((socket, next)=>{
   const userId = socket.handshake.auth.userId;
-  const password = socket.handshake.auth.password;
+  const teamCode = socket.handshake.auth.teamCode;
+  console.log(userId +" tried to logged in with teamcode :"+teamCode);
+  if(userId != null && teamCode != null){
+//a room for this user only
+    socket.join(userId);
+    next();
+
+  }else{
+    console.log(userId +" is rejected");
+  }
   
-  //a room for this user only
-  socket.join(userId);
-  console.log(userId +" tried to logged in with password :"+password);
-  next();
+  
 });
 
 io.on('connection', (socket) => {
