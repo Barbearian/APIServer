@@ -61,14 +61,14 @@ io.on('connection', (socket) => {
 
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
-    try{
-      axios.post(
-        "https://06ox8e9nmb.execute-api.ap-northeast-2.amazonaws.com/devops",
-        {body:teamcode+","+userid}
-      );
-    }catch(error){
+    // try{
+    //   axios.post(
+    //     "https://06ox8e9nmb.execute-api.ap-northeast-2.amazonaws.com/devops",
+    //     {body:teamcode+","+userid}
+    //   );
+    // }catch(error){
 
-    }
+    // }
     console.log(socket.id+" is disconnected");
   });
 });
