@@ -34,6 +34,7 @@ io.use((socket, next)=>{
 io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
+  const teamcode = socket.handshake.auth.teamCode;
   console.log(userid+' is authorized');
   io.emit("message","login",{id:userid, message:"has join the room"});
 
@@ -47,13 +48,17 @@ io.on('connection', (socket) => {
     console.log(userid+"->"+key+": "+ message);
   });
 
-  socket.on("RegisterHttp",(uri,body)=>{
-    axios.post(uri,body);
+  //socket.on("RegisterHttp",(uri,body)=>{
+   // axios.post(uri,body);
     //console.log(message);
-  });
+ // });
 
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
+    axios.post(
+      "https://06ox8e9nmb.execute-api.ap-northeast-2.amazonaws.com/devops",
+      {body:teamcode+","+userid}
+    );
     console.log(socket.id+" is disconnected");
   });
 });
