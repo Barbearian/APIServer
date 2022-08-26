@@ -55,10 +55,10 @@ io.on('connection', (socket) => {
 
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
-   // axios.post(
-    //  "https://06ox8e9nmb.execute-api.ap-northeast-2.amazonaws.com/devops",
-     // {body:teamcode+","+userid}
-    //);
+    axios.post(
+      "https://06ox8e9nmb.execute-api.ap-northeast-2.amazonaws.com/devops",
+      {body:teamcode+","+userid}
+    );
     console.log(socket.id+" is disconnected");
   });
 });
