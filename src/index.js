@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
     io.emit("message","disconnect",userid);
     try{
       axios.post(
-        "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws",
+        "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
         {
           body:{
             TeamCode:teamcode,
