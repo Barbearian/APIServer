@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
   const teamcode = socket.handshake.auth.teamCode;
-  const tebleName = socket.handshake.auth.tebleName;
+  const tableName = socket.handshake.auth.tableName;
 
   console.log(userid+' is authorized');
   io.emit("message","login",{id:userid, message:"has join the room"});
