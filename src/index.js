@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
   const teamcode = socket.handshake.auth.teamCode;
-  // const tableName = socket.handshake.auth.tableName;
+  const tablename = socket.handshake.auth.tableName;
 
   console.log(userid+' is authorized');
   io.emit("message","login",{id:userid, message:"has join the room"});
@@ -65,14 +65,25 @@ io.on('connection', (socket) => {
 
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
-    // try{
-    //   axios.post(
-    //     "https://06ox8e9nmb.execute-api.ap-northeast-2.amazonaws.com/devops",
-    //     {body:teamcode+","+userid}
-    //   );
-    // }catch(error){
+    try{
+      axios.post(
+        "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws",
+        {
+          body:{
+            TeamCode:teamcode,
+            UserId :userid,
+            TableName: tablename,
+            UserStatus: 0
+          }
+        }
+      ).then((res)=>{
+        console.log(res);
+      }).catch((err)=>{
+        console.log(err);
+      });
+    }catch(error){
 
-    // }
+    }
     console.log(socket.id+" is disconnected");
   });
 });
