@@ -69,12 +69,12 @@ io.on('connection', (socket) => {
       axios.post(
         "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
         {
-          body:{
+          // body:{
             TeamCode:teamcode,
             UserId :userid,
             TableName: tablename,
             UserStatus: 0
-          }
+          // }
         }
       ).then((res)=>{
         console.log(res);
