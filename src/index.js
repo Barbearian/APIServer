@@ -24,9 +24,9 @@ app.post("/postTest",(req,res)=>{
 io.use((socket, next)=>{
   const userId = socket.handshake.auth.userId;
   const teamCode = socket.handshake.auth.teamCode;
-  const tableName = socket.handshake.auth.tableName;
-  console.log(userId +" tried to logged in with teamcode :"+teamCode +" and table name : "+tebleName);
-  if(userId != null && teamCode != null && tebleName != null){
+ // const tableName = socket.handshake.auth.tableName;
+  console.log(userId +" tried to logged in with teamcode :"+teamCode);
+  if(userId != null && teamCode != null){
 //a room for this user only
     socket.join(userId);
     next();
@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
   const teamcode = socket.handshake.auth.teamCode;
-  const tableName = socket.handshake.auth.tableName;
+  // const tableName = socket.handshake.auth.tableName;
 
   console.log(userid+' is authorized');
   io.emit("message","login",{id:userid, message:"has join the room"});
