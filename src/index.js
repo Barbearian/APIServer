@@ -66,17 +66,17 @@ io.on('connection', (socket) => {
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
     try{
-      axios.post(
-        "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
-        {
-          // body:{
-            TeamCode:teamcode,
-            UserId :userid,
-            TableName: tablename,
-            UserStatus: 0
-          // }
-        }
-      ).then((res)=>{
+      const config = {
+        method: "post",
+        body:{
+          TeamCode:teamcode,
+          UserId :userid,
+          TableName: tablename,
+          UserStatus: 0
+        },
+        url: "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
+      }
+      axios(config).then((res)=>{
         console.log(res);
       }).catch((err)=>{
         console.log(err);
