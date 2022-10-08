@@ -8,26 +8,14 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-//app.get('/', (req, res) => {});
-
-//http request
-app.get("/hi",(req,res)=>{
-  console.log("Someone said hello");
-  res.send("Hello this is an hello message from http request");
-});
-
-app.post("/postTest",(req,res)=>{
-  console.log("I received post message");
-});
 
 //authenrication
 io.use((socket, next)=>{
   const userId = socket.handshake.auth.userId;
-  const teamCode = socket.handshake.auth.teamCode;
   const tableName = socket.handshake.auth.tableName;
  // const tableName = socket.handshake.auth.tableName;
   console.log(userId +" tried to logged in "+tableName+" with teamcode :"+teamCode);
-  if(userId != null && teamCode != null&&tableName != null){
+  if(userId != null && tableName != null){
 //a room for this user only
     socket.join(userId);
     next();
@@ -42,7 +30,6 @@ io.use((socket, next)=>{
 io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
-  const teamcode = socket.handshake.auth.teamCode;
   const tablename = socket.handshake.auth.tableName;
 
   console.log(userid+' is authorized');
@@ -65,23 +52,23 @@ io.on('connection', (socket) => {
 
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
-    try{
-      axios({
-        data:{
-          TeamCode:teamcode,
-          UserId :userid,
-          TableName: tablename,
-          UserStatus: 0
-        },
-        url: "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
-      }).then((res)=>{
-        console.log(res);
-      }).catch((err)=>{
-        console.log(err);
-      });
-    }catch(error){
+    // try{
+    //   axios({
+    //     data:{
+    //       TeamCode:teamcode,
+    //       UserId :userid,
+    //       TableName: tablename,
+    //       UserStatus: 0
+    //     },
+    //     url: "",
+    //   }).then((res)=>{
+    //     console.log(res);
+    //   }).catch((err)=>{
+    //     console.log(err);
+    //   });
+    // }catch(error){
 
-    }
+    // }
     console.log(socket.id+" is disconnected");
   });
 });
