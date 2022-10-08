@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'gyeongsang-socketio'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FD99E9CB4DF8413E9C1C607366F02270 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0FF4E7CB45874309A9E77B34B3D7F0B0 }}
           package: .
