@@ -6,6 +6,10 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+app.get("/hi",(req,res)=>{
+  console.log("Someone said hello");
+  res.send("Hello this is an hello message from http request");
+});
 
 //authenrication
 io.use((socket, next)=>{
