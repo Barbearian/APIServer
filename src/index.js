@@ -13,6 +13,7 @@ app.get("/hi",(req,res)=>{
 
 //authenrication
 io.use((socket, next)=>{
+  console.log("Someone said hello11");
   const userId = socket.handshake.auth.userId;
   const tableName = socket.handshake.auth.tableName;
  // const tableName = socket.handshake.auth.tableName;
