@@ -1,4 +1,6 @@
 const express = require('express');
+require("dotenv").config();
+
 const app = express();
 const http = require('http');
 const axios = require("axios");
@@ -7,6 +9,9 @@ const { type } = require('os');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+
+const url = process.env.SERVER_URL||"";
+const port = process.env.SOCKET_PORT||3001;
 
 //app.get('/', (req, res) => {});
 
@@ -23,11 +28,8 @@ app.post("/postTest",(req,res)=>{
 //authenrication
 io.use((socket, next)=>{
   const userId = socket.handshake.auth.userId;
-  const teamCode = socket.handshake.auth.teamCode;
-  const tableName = socket.handshake.auth.tableName;
  // const tableName = socket.handshake.auth.tableName;
-  console.log(userId +" tried to logged in "+tableName+" with teamcode :"+teamCode);
-  if(userId != null && teamCode != null&&tableName != null){
+  if(userId != null){
 //a room for this user only
     socket.join(userId);
     next();
@@ -42,8 +44,7 @@ io.use((socket, next)=>{
 io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
-  const teamcode = socket.handshake.auth.teamCode;
-  const tablename = socket.handshake.auth.tableName;
+
 
   console.log(userid+' is authorized');
   io.emit("message","login",{id:userid, message:"has join the room"});
@@ -65,29 +66,27 @@ io.on('connection', (socket) => {
 
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
-    try{
-      axios({
-        data:{
-          TeamCode:teamcode,
-          UserId :userid,
-          TableName: tablename,
-          UserStatus: 0
-        },
-        url: "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
-      }).then((res)=>{
-        console.log(res);
-      }).catch((err)=>{
-        console.log(err);
-      });
-    }catch(error){
+    // try{
+    //   axios({
+    //     data:{
+    //       UserId :userid,
+    //       UserStatus: 0
+    //     },
+    //     url: "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
+    //   }).then((res)=>{
+    //     console.log(res);
+    //   }).catch((err)=>{
+    //     console.log(err);
+    //   });
+    // }catch(error){
 
-    }
+    // }
     console.log(socket.id+" is disconnected");
   });
 });
 
 
 
-server.listen(3000, () => {
-  console.log('listening on *:3000');
+server.listen(port, () => {
+  console.log('listening on *:'+port);
 });
