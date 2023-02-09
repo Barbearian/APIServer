@@ -59,11 +59,6 @@ io.on('connection', (socket) => {
     console.log(userid+"->"+key+": "+ message);
   });
 
-  //socket.on("RegisterHttp",(uri,body)=>{
-   // axios.post(uri,body);
-    //console.log(message);
- // });
-
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
     // try{
