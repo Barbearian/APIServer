@@ -26,6 +26,7 @@ app.post("/postTest",(req,res)=>{
 });
 
 //authenrication
+//http://localhost:3001 local host
 io.use((socket, next)=>{
   const userId = socket.handshake.auth.userId;
  // const tableName = socket.handshake.auth.tableName;
