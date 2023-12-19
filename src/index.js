@@ -8,13 +8,14 @@ const https = require('https');
 const { type } = require('os');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const e = require('express');
 const io = new Server(server);
 
 const url = process.env.SERVER_URL||"";
 const port = process.env.SOCKET_PORT||3001;
 
 //app.get('/', (req, res) => {});
-
+app.use(express.json());
 //http request
 app.get("/hi",(req,res)=>{
   console.log("Someone said hello");
@@ -23,7 +24,35 @@ app.get("/hi",(req,res)=>{
 
 app.post("/postTest",(req,res)=>{
   console.log("I received post message");
+  res.sendStatus(200);
 });
+
+app.post("/message",(req,res)=>{
+  //io.emit("message",req.body);
+  console.log("I received message "+ JSON.stringify(req.body));
+  //console.log("I received message "+ req.body);
+  if(req.body.type != null && req.body.message != null){
+    io.emit("message",req.body.type,req.body.message);
+    res.sendStatus(200);
+  }else{
+    res.status(400);
+    res.send("You need have type and message in body");
+  }
+});
+
+app.post("/privateMessage",(req,res)=>{
+  //io.emit("message",req.body);
+  console.log("I received message "+ JSON.stringify(req.body));
+  //console.log("I received message "+ req.body);
+  if(req.body.type != null && req.body.message != null && req.body.key != null){
+    io.to(req.body.key).emit("message",req.body.type,req.body.message);
+    res.sendStatus(200);
+  }else{
+    res.status(400);
+    res.send("You need have key (what group you want to send message to),type and message in body");
+  }
+});
+
 
 //authenrication
 //http://localhost:3001 local host
@@ -46,9 +75,11 @@ io.on('connection', (socket) => {
   
   const userid = socket.handshake.auth.userId;
 
-
+ 
   console.log(userid+' is authorized');
   io.emit("message","login",{id:userid, message:"has join the room"});
+
+
 
   socket.on("message",(type,message)=>{
     io.emit("message",type,message);
@@ -62,26 +93,9 @@ io.on('connection', (socket) => {
 
   socket.on("disconnect",()=>{
     io.emit("message","disconnect",userid);
-    // try{
-    //   axios({
-    //     data:{
-    //       UserId :userid,
-    //       UserStatus: 0
-    //     },
-    //     url: "https://qa6db4g5vjik7wbdrxuhmpcoci0vjoks.lambda-url.ap-northeast-2.on.aws/",
-    //   }).then((res)=>{
-    //     console.log(res);
-    //   }).catch((err)=>{
-    //     console.log(err);
-    //   });
-    // }catch(error){
-
-    // }
     console.log(socket.id+" is disconnected");
   });
 });
-
-
 
 server.listen(port, () => {
   console.log('listening on *:'+port);
