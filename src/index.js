@@ -40,6 +40,19 @@ app.post("/message",(req,res)=>{
   }
 });
 
+app.post("/jsonMessage", (req, res) => {
+    //io.emit("message",req.body);
+    console.log("I received message " + JSON.stringify(req.body));
+    //console.log("I received message "+ req.body);
+    if (req.body.type != null && req.body.message != null) {
+        io.emit("message", req.body.type, JSON.stringify(req.body.message));
+        res.sendStatus(200);
+    } else {
+        res.status(400);
+        res.send("You need have type and message in body");
+    }
+});
+
 app.post("/privateMessage",(req,res)=>{
   //io.emit("message",req.body);
   console.log("I received message "+ JSON.stringify(req.body));
@@ -53,6 +66,18 @@ app.post("/privateMessage",(req,res)=>{
   }
 });
 
+app.post("/jsonPrivateMessage", (req, res) => {
+    //io.emit("message",req.body);
+    console.log("I received message " + JSON.stringify(req.body));
+    //console.log("I received message "+ req.body);
+    if (req.body.type != null && req.body.message != null && req.body.key != null) {
+        io.to(req.body.key).emit("message", req.body.type, JSON.stringify(req.body.message));
+        res.sendStatus(200);
+    } else {
+        res.status(400);
+        res.send("You need have key (what group you want to send message to),type and message in body");
+    }
+});
 
 //authenrication
 //http://localhost:3001 local host
