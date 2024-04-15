@@ -9,12 +9,13 @@ const { type } = require('os');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const e = require('express');
+var cors = require('cors');
 const io = new Server(server);
 
 const url = process.env.SERVER_URL||"";
 const port = process.env.SOCKET_PORT||3001;
 
-//app.get('/', (req, res) => {});
+app.use(cors());
 app.use(express.json());
 //http request
 app.get("/hi",(req,res)=>{
@@ -38,6 +39,13 @@ app.post("/message",(req,res)=>{
     res.status(400);
     res.send("You need have type and message in body");
   }
+});
+
+app.post("/nodemessage/messageID/:messageID/messageType/:messageType", (req, res) => {
+    console.log("I received message " + JSON.stringify(req.body));
+    io.to(req.params.messageID).emit("message", req.params.messageType, JSON.stringify(req.body.message));
+    res.header("Access-Control-Allow-Origin","*");
+    res.sendStatus(200);
 });
 
 app.post("/jsonMessage", (req, res) => {
